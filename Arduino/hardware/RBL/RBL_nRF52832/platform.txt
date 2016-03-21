@@ -1,0 +1,105 @@
+
+# RBL_nRF52832 compile variables
+# ------------------------- 
+
+name=RedBearLab Boards
+
+# Compile tool path
+#compiler.path={runtime.tools.arm-none-eabi-gcc-4.9.3-2015q1.path}/bin/
+compiler.path={runtime.platform.path}/tools/arm-none-eabi-4.9.3-2015q1/bin/
+
+# Compile defined
+compiler.device.define=-DNRF52 -DSOFTDEVICE_PRESENT -DBOARD_PCA10040 -DS132 -DCONFIG_GPIO_AS_PINRESET -DBLE_STACK_SUPPORT_REQD -DSWI_DISABLE0
+compiler.platform.define=-DNRF52_PAN_24 -DNRF52_PAN_25 -DNRF52_PAN_26 -DNRF52_PAN_27 -DNRF52_PAN_28 -DNRF52_PAN_29 -DNRF52_PAN_30 -DNRF52_PAN_32 -DNRF52_PAN_33 -DNRF52_PAN_34 -DNRF52_PAN_35 -DNRF52_PAN_36 -DNRF52_PAN_37 -DNRF52_PAN_38 -DNRF52_PAN_39 -DNRF52_PAN_40 -DNRF52_PAN_41 -DNRF52_PAN_42 -DNRF52_PAN_43 -DNRF52_PAN_44 -DNRF52_PAN_46 -DNRF52_PAN_47 -DNRF52_PAN_48 -DNRF52_PAN_49 -DNRF52_PAN_58 -DNRF52_PAN_63 -DNRF52_PAN_64 -DNRF52_PAN_65 -DNRF52_PAN_1 -DNRF52_PAN_2 -DNRF52_PAN_3 -DNRF52_PAN_4 -DNRF52_PAN_7 -DNRF52_PAN_8 -DNRF52_PAN_9 -DNRF52_PAN_10 -DNRF52_PAN_11 -DNRF52_PAN_12 -DNRF52_PAN_15 -DNRF52_PAN_16 -DNRF52_PAN_17 -DNRF52_PAN_20 -DNRF52_PAN_23
+
+# Compile S files options
+compiler.S.cmd=arm-none-eabi-gcc
+compiler.S.flags=-x assembler-with-cpp -c
+
+# Compile c files options
+# For xx.out file : need add -mfloat-abi=hard
+compiler.c.cmd=arm-none-eabi-gcc
+compiler.c.flags=-c -mcpu=cortex-m4 -mthumb -mabi=aapcs --std=gnu99 -Wall -Werror -O3 -g3 -mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -nostdlib 
+
+# Compile cpp files options
+# For xx.out file : need add -mfloat-abi=hard
+compiler.cpp.cmd=arm-none-eabi-g++
+compiler.cpp.flags=-c -mcpu=cortex-m4 -mthumb -mabi=aapcs -std=gnu++98 -Wall -Werror -O3 -g3 -mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -nostdlib 
+
+# Create archives options
+compiler.ar.cmd=arm-none-eabi-ar
+compiler.ar.flags=rcs
+
+# Combine to create elf file options
+compiler.c.elf.cmd=arm-none-eabi-g++
+compiler.c.elf.flags=-Os -Wl,--gc-sections  
+compiler.ldflags=--specs=nano.specs 
+
+# Create bin file options
+compiler.elf2bin.cmd=arm-none-eabi-objcopy
+compiler.elf2bin.flags=-O binary
+
+# Create hex file options
+compiler.elf2hex.cmd=arm-none-eabi-objcopy
+compiler.elf2hex.flags=-O ihex -I binary 
+compiler.elf2hex.flagx=-O ihex
+
+# Calculate hex size options
+compiler.size.cmd=arm-none-eabi-size
+
+# RBL_nRF51822 compile patterns
+# ------------------------
+
+## Compile S files
+recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} {compiler.device.define} {compiler.platform.define} "{source_file}" -o "{object_file}"
+
+## Compile c files
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} {compiler.device.define} {compiler.platform.define} -D{software}={runtime.ide.version} {build.variant_system_include} {includes} "{source_file}" -o "{object_file}"
+
+## Compile c++ files
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {compiler.device.define} {compiler.platform.define} -D{software}={runtime.ide.version} {build.variant_system_include} {includes} "{source_file}" -o "{object_file}"
+
+## Create archives
+recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} "{archive_file_path}" "{object_file}"
+
+## Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mcpu={build.mcu} -mthumb "-T{build.variant.path}/{build.ldscript}" {compiler.ldflags} "-Wl,-Map,{build.path}/{build.project_name}.map" -o "{build.path}/{build.project_name}.elf" {build.ld_include} "-L{build.path}" -lm -lgcc -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--warn-common -Wl,--warn-unresolved-symbols -Wl,--start-group {object_files} "{build.path}/{archive_file}" -lc -lnosys -Wl,--end-group 
+#recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -Xlinker -Map={build.path}/{build.project_name}.map -mthumb -mabi=aapcs {build.ld_include} "-L{build.path}" "-T{build.variant.path}/{build.ldscript}" -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wl,--gc-sections --specs=nano.specs -lm -o "{build.path}/{build.project_name}.out" -Wl,--start-group {object_files} "{build.path}/{archive_file}" -lc -lnosys -Wl,--end-group 
+
+## Create bin
+recipe.objcopy.eep.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+
+## Create hex
+recipe.objcopy.hex1.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flagx} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}_OTA.hex" 
+recipe.objcopy.hex2.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} "{build.path}/{build.project_name}.bin" "{build.path}/{build.project_name}.bin.hex" 
+
+## Save hex
+recipe.output.tmp_file={build.project_name}_OTA.hex
+recipe.output.save_file={build.project_name}.{build.variant}.hex
+
+## Compute size
+recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
+recipe.size.regex=\.text\s+([0-9]+).*
+
+## Preprocessor
+preproc.includes.flags=-w -x c++ -M -MG -MP
+recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.includes.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} {compiler.device.define} {compiler.platform.define} {build.variant_system_include} {includes} "{source_file}"
+
+preproc.macros.flags=-w -x c++ -E -CC
+recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} {compiler.device.define} {compiler.platform.define} {build.variant_system_include} {includes} "{source_file}" -o "{preprocessed_file_path}"
+
+# RBL_nRF51822 Uploader tools
+# ----------------------
+
+tools.avrdude.cmd.path={runtime.tools.avrdude.path}/bin/avrdude
+tools.avrdude.config.path={runtime.platform.path}/avrdude_conf/avrdude.conf 
+tools.avrdude.cmd.path.linux={runtime.tools.avrdude.path}/bin/avrdude
+tools.avrdude.config.path.linux={runtime.platform.path}/avrdude_conf/avrdude.conf
+
+tools.avrdude.upload.params.verbose=-v -v -v -v
+tools.avrdude.upload.params.quiet=-q -q
+tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} -p{build.mcu} -c{upload.protocol} -P{serial.port} -b{upload.speed} -D "-Uflash:w:{build.path}/{build.project_name}.hex:i"
+
+
+
+
