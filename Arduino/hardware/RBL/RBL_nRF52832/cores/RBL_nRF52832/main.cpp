@@ -11,7 +11,8 @@
 
 int main(void)
 {
-
+    LFCLK_init();
+    RTC_DELAY_init();
     setup();
 
     for (;;)
