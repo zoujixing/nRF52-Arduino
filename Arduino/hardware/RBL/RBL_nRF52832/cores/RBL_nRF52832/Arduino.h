@@ -1,20 +1,3 @@
-/*
-  Copyright (c) 2012 Arduino.  All right reserved.
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
 
 #ifndef Arduino_h
 #define Arduino_h
@@ -33,20 +16,31 @@
 extern "C"{
 #endif 
 
-// Includes Atmel CMSIS
+#include "nrf.h"
+#include "nrf51_to_nrf52.h"
+#include "nrf52.h"
+#include "nrf52_bitfields.h"
+#include "nrf52_name_change.h"
+#include "compiler_abstraction.h"
 #include "system_nrf52.h"
-#include "nrf_gpio.h"
+
+#include "pin_transform.h"
+#include "wiring_constants.h"
+#include "nrf_clock.h"
+#include "delay.h"
+
+#include "wiring_digital.h"
 
 void yield(void);
 
-/* sketch */
+//sketch 
 extern void setup( void ) ;
 extern void loop( void ) ;
 
 #ifdef __cplusplus
 } 
-
-
 #endif 
+
+
 
 #endif 
