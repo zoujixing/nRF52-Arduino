@@ -20,5 +20,5 @@ nRF52832_NANO.build.variant=nRF52832_Nano
 nRF52832_NANO.build.ldscript=linker_scripts/gcc/nrf52832_nano.ld
 nRF52832_NANO.build.ld_include="-L{runtime.platform.path}/variants/nRF52832_Nano/linker_scripts/gcc"
 nRF52832_NANO.build.variant_system_include= "-I{build.system.path}/CMSIS/Include"
-
+nRF52832_NANO.build.include_paths="-I{runtime.platform.path}/cores/RBL_nRF52832/device"
 ##############################################################

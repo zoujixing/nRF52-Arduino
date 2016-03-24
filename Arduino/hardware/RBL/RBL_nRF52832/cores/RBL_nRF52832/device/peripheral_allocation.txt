@@ -1,0 +1,7 @@
+
+
+RTC0 : Used by softdevice.
+RTC1 
+RTC2 : Counter for delay.
+
+

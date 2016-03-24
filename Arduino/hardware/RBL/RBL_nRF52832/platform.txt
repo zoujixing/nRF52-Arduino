@@ -51,13 +51,13 @@ compiler.size.cmd=arm-none-eabi-size
 # ------------------------
 
 ## Compile S files
-recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} {compiler.device.define} {compiler.platform.define} "{source_file}" -o "{object_file}"
+recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} {compiler.device.define} {compiler.platform.define} {build.include_paths} "{source_file}" -o "{object_file}"
 
 ## Compile c files
-recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} {compiler.device.define} {compiler.platform.define} -D{software}={runtime.ide.version} {build.variant_system_include} {includes} "{source_file}" -o "{object_file}"
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} {compiler.device.define} {compiler.platform.define} -D{software}={runtime.ide.version} {build.variant_system_include} {build.include_paths} {includes} "{source_file}" -o "{object_file}"
 
 ## Compile c++ files
-recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {compiler.device.define} {compiler.platform.define} -D{software}={runtime.ide.version} {build.variant_system_include} {includes} "{source_file}" -o "{object_file}"
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {compiler.device.define} {compiler.platform.define} -D{software}={runtime.ide.version} {build.variant_system_include} {build.include_paths} {includes} "{source_file}" -o "{object_file}"
 
 ## Create archives
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} "{archive_file_path}" "{object_file}"
@@ -83,10 +83,10 @@ recipe.size.regex=\.text\s+([0-9]+).*
 
 ## Preprocessor
 preproc.includes.flags=-w -x c++ -M -MG -MP
-recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.includes.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} {compiler.device.define} {compiler.platform.define} {build.variant_system_include} {includes} "{source_file}"
+recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.includes.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} {compiler.device.define} {compiler.platform.define} {build.variant_system_include} {build.include_paths} {includes} "{source_file}"
 
 preproc.macros.flags=-w -x c++ -E -CC
-recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} {compiler.device.define} {compiler.platform.define} {build.variant_system_include} {includes} "{source_file}" -o "{preprocessed_file_path}"
+recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} {compiler.device.define} {compiler.platform.define} {build.variant_system_include} {build.include_paths} {includes} "{source_file}" -o "{preprocessed_file_path}"
 
 # RBL_nRF51822 Uploader tools
 # ----------------------
