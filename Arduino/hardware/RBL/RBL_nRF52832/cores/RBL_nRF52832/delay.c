@@ -1,8 +1,14 @@
 
-#include "Arduino.h"
+#include "delay.h"
 
+/****************************************************
+*                 Local Variables
+****************************************************/
 static volatile uint64_t overflow_count;
 
+/****************************************************
+*                 Function Definitions
+****************************************************/ 
 void RTC_DELAY_IRQ_Hanler(void)
 {
     if(RTC_DELAY->EVENTS_OVRFLW)

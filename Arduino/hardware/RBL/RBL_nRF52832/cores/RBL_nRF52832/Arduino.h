@@ -16,19 +16,14 @@
 extern "C"{
 #endif 
 
-#include "nrf.h"
-#include "nrf51_to_nrf52.h"
-#include "nrf52.h"
-#include "nrf52_bitfields.h"
-#include "nrf52_name_change.h"
-#include "compiler_abstraction.h"
-#include "system_nrf52.h"
-
+#include "device_common.h"
+#include "pins_arduino.h"
 #include "pin_transform.h"
-#include "wiring_constants.h"
+
 #include "nrf_clock.h"
 #include "delay.h"
 
+#include "wiring_constants.h"
 #include "wiring_digital.h"
 
 void yield(void);
@@ -41,6 +36,6 @@ extern void loop( void ) ;
 } 
 #endif 
 
-
+#include "wiring_uart.h"
 
 #endif 

@@ -1,5 +1,5 @@
 
-#include "Arduino.h"
+#include "nrf_clock.h"
 
 void LFCLK_init(void)
 {	

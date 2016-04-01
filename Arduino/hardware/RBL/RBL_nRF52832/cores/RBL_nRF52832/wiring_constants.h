@@ -30,6 +30,11 @@ extern "C"{
 #define FALLING         3
 #define RISING          4
 
+
+typedef unsigned int word;
+typedef uint8_t boolean ;
+typedef uint8_t byte ;
+
 #ifdef __cplusplus
 } 
 #endif

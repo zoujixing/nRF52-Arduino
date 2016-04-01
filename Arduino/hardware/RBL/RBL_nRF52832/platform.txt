@@ -19,12 +19,12 @@ compiler.S.flags=-x assembler-with-cpp -c
 # Compile c files options
 # For xx.out file : need add -mfloat-abi=hard
 compiler.c.cmd=arm-none-eabi-gcc
-compiler.c.flags=-c -mcpu=cortex-m4 -mthumb -mabi=aapcs --std=gnu99 -Wall -Werror -O3 -g3 -mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -nostdlib 
+compiler.c.flags=-c -mcpu=cortex-m4 -mthumb -mabi=aapcs --std=gnu99 -Wall -Werror -O3 -g3 -mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -nostdlib
 
 # Compile cpp files options
 # For xx.out file : need add -mfloat-abi=hard
 compiler.cpp.cmd=arm-none-eabi-g++
-compiler.cpp.flags=-c -mcpu=cortex-m4 -mthumb -mabi=aapcs -std=gnu++98 -Wall -Werror -O3 -g3 -mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -nostdlib 
+compiler.cpp.flags=-c -mcpu=cortex-m4 -mthumb -mabi=aapcs -std=gnu++98 -Wall -Werror -O3 -g3 -mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -nostdlib
 
 # Create archives options
 compiler.ar.cmd=arm-none-eabi-ar

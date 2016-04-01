@@ -2,7 +2,9 @@
 #ifndef PIN_TRANSFORM_H_
 #define PIN_TRANSFORM_H_
 
-#include "Arduino.h"
+#include <stdint.h>
+#include <string.h>
+#include "device_common.h"
 
 #ifdef __cplusplus
 extern "C" {
