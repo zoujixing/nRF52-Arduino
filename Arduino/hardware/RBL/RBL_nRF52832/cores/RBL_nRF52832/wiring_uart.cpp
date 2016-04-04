@@ -7,7 +7,7 @@
 *                 Local Variables
 ****************************************************/
 static Ring_Buffer uart_rx_buf;
-static void (*uart_rx_handler)(void) = NULL;
+static rx_callback_t uart_rx_handler = NULL;
 /****************************************************
 *                 Function Definitions
 ****************************************************/ 
@@ -81,10 +81,12 @@ void UARTClass::flush(void)
 size_t UARTClass::write(uint8_t dat)
 {
     UART0_send(dat);
-    return 0;
+    return 1;
 }
 
-void UARTClass::attach(void (*rx_callback)(void))
+void UARTClass::attach(rx_callback_t handler)
 {
-    uart_rx_handler = rx_callback;
+    uart_rx_handler = handler;
 }
+
+UARTClass Serial;

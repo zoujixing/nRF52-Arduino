@@ -4,13 +4,17 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <cstddef>
 #include "device_common.h"
 
+#include "HardwareSerial.h"
+
+typedef void (*rx_callback_t)(void);
 /****************************************************
 *                 Type Definitions
 ****************************************************/ 
 
-class UARTClass //: public HardwareSerial
+class UARTClass : public HardwareSerial
 {
 public:
     UARTClass(void);
@@ -22,11 +26,16 @@ public:
     int  read(void);
     void flush(void);
     size_t write(uint8_t dat);
-    //using Print::write; // pull in write(str) and write(buf, size) from Print  
-
-    void attach(void (*rx_callback)(void));    
+    
+    void attach(rx_callback_t handler); 
+    
+    using Print::write; 
+    
+    operator bool() {
+        return true;
+    };
 };
 
-
+extern UARTClass Serial;
 
 #endif
