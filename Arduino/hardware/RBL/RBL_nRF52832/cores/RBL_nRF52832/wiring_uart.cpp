@@ -6,8 +6,10 @@
 /****************************************************
 *                 Local Variables
 ****************************************************/
+
 static Ring_Buffer uart_rx_buf;
 static rx_callback_t uart_rx_handler = NULL;
+
 /****************************************************
 *                 Function Definitions
 ****************************************************/ 
@@ -47,6 +49,7 @@ void UARTClass::begin(uint32_t baudRate, uint8_t tx_pin, uint8_t rx_pin)
     uart_rx_buf.clear();
     UART0_registRxHandler(uart_irq_handler);
     UART0_init(nrf_tx_pin, nrf_rx_pin, baudRate);   
+    debug_open();
 }
 
 void UARTClass::end(void)
@@ -54,6 +57,7 @@ void UARTClass::end(void)
     UART0_uninit(); 
     UART0_registRxHandler(NULL);
     uart_rx_buf.clear();
+    debug_close();
     
     uart_rx_handler = NULL;
 }

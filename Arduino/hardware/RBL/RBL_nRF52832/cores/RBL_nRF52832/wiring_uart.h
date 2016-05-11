@@ -2,14 +2,13 @@
 #ifndef WIRING_UART_H_
 #define WIRING_UART_H_
 
-#include <stdint.h>
-#include <string.h>
 #include <cstddef>
 #include "device_common.h"
 
 #include "HardwareSerial.h"
 
 typedef void (*rx_callback_t)(void);
+
 /****************************************************
 *                 Type Definitions
 ****************************************************/ 

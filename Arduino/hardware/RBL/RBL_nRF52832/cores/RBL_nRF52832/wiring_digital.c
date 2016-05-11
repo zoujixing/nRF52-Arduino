@@ -1,10 +1,15 @@
 
 #include "wiring_digital.h"
 
-/**********************************************************************
-name :
-function : 
-**********************************************************************/
+/****************************************************
+*                 Local Variables
+****************************************************/
+
+
+
+/****************************************************
+*                 Function Definitions
+****************************************************/ 
 void pinMode(uint8_t pin, uint8_t mode)
 {   
     uint8_t nrf_pin;
@@ -120,15 +125,12 @@ void pinMode(uint8_t pin, uint8_t mode)
         break ;
     }
 }
-/**********************************************************************
-name :
-function : 
-**********************************************************************/
+
 void digitalWrite(uint8_t pin, uint32_t value)
 {
     uint8_t nrf_pin;
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
-    if(pin < 31)
+    if(nrf_pin < 31)
     {
         if (value)
             NRF_GPIO->OUTSET = (1 << nrf_pin);
@@ -136,15 +138,12 @@ void digitalWrite(uint8_t pin, uint32_t value)
             NRF_GPIO->OUTCLR = (1 << nrf_pin);
     }
 }
-/**********************************************************************
-name :
-function : 
-**********************************************************************/
+
 int digitalRead(uint8_t pin)
 {
     uint8_t nrf_pin;
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
-    if(pin < 31)
+    if(nrf_pin < 31)
     {   
         return ((NRF_GPIO->IN >> nrf_pin) & 1UL);
     }

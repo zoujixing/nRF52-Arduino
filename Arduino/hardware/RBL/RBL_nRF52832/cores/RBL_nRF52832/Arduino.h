@@ -17,25 +17,30 @@ extern "C"{
 #endif 
 
 #include "device_common.h"
-#include "pins_arduino.h"
-#include "pin_transform.h"
 
 #include "nrf_clock.h"
 #include "delay.h"
 
 #include "wiring_constants.h"
 #include "wiring_digital.h"
+#include "wiring_analog.h"
+
+#include "interrupts.h"
+
+#include "debug_config.h"
 
 void yield(void);
 
 //sketch 
-extern void setup( void ) ;
-extern void loop( void ) ;
+extern void setup( void );
+extern void loop( void );
 
 #ifdef __cplusplus
 } 
 #endif 
 
 #include "wiring_uart.h"
+#include "tone.h"
+
 
 #endif 

@@ -2,9 +2,6 @@
 #ifndef DELAY_H_
 #define DELAY_H_
 
-
-#include <stdint.h>
-#include <string.h>
 #include "device_common.h"
 
 #ifdef __cplusplus
@@ -22,11 +19,37 @@ extern "C"{
 *                 Function Declarations
 ****************************************************/
 
+/*
+ * @brief Init RTCx, call in main.cpp
+ */
 void RTC_DELAY_init(void);
 
+/*
+ * @brief Get the time(in ms) after system begin
+ *
+ * @return Time in ms
+ */
 uint32_t millis(void);
+
+/*
+ * @brief Get the time(in us) after system begin
+ *
+ * @return Time in us
+ */
 uint32_t micros(void);
+
+/*
+ * @brief Delay in ms
+ *
+ * @param[in] ms      Time in ms.
+ */
 void delay(uint32_t ms);
+
+/*
+ * @brief Delay in us
+ *
+ * @param[in] us      Time in us.
+ */
 void delayMicroseconds(uint32_t us);
 
 

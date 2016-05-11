@@ -2,6 +2,10 @@
 #ifndef DEVICE_COMMON_H_
 #define DEVICE_COMMON_H_
 
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+
 #include "nrf.h"
 #include "nrf52.h"
 #include "nrf52_bitfields.h"
@@ -12,5 +16,6 @@
 
 #include "pins_arduino.h"
 #include "pin_transform.h"
+#include "debug_config.h"
 
 #endif
