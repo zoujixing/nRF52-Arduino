@@ -9,8 +9,15 @@ extern "C" {
 #endif
 
 // Enable or Disable log
+#define LOG_USER_ENABLE   1
 #define LOG_INFOR_ENABLE  1
 #define LOG_ERROR_ENABLE  1
+
+#if LOG_USER_ENABLE
+#define log_info(format, ...)  debug_print(LOG_LEVEL_INFO, format,  ## __VA_ARGS__)
+#else
+#define log_info(format, ...)
+#endif
 
 #if LOG_INFOR_ENABLE
 #define log_info(format, ...)  debug_print(LOG_LEVEL_INFO, format,  ## __VA_ARGS__)

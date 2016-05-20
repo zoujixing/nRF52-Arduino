@@ -33,7 +33,7 @@ void debug_print(uint8_t log_level, const char *format, ...)
     if(!debug_flag)
         return;
     
-    if( (log_level != LOG_LEVEL_INFO) && (log_level != LOG_LEVEL_ERROR))
+    if( (log_level != LOG_LEVEL_INFO) && (log_level != LOG_LEVEL_ERROR) )
         return;
     
     va_start(args, format);

@@ -21,6 +21,11 @@ typedef enum{
 //#endif
 
 /*
+ * @brief Init pwm sequence and some flags. It's not must.
+ */
+void pwm_init(void);
+
+/*
  * @brief Set the resolution of analogRead return values. Default is 10 bits (range from 0 to 1023).
  *
  * @param[in] resolution 

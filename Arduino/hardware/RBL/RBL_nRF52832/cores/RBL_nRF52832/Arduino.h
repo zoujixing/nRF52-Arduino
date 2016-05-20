@@ -24,7 +24,8 @@ extern "C"{
 #include "wiring_constants.h"
 #include "wiring_digital.h"
 #include "wiring_analog.h"
-
+#include "wiring_shift.h"
+#include "wiring_pulse.h"
 #include "interrupts.h"
 
 #include "debug_config.h"
