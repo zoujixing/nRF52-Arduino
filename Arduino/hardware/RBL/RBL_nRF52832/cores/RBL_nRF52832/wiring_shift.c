@@ -22,7 +22,6 @@ uint32_t shiftIn(uint8_t ulDataPin, uint8_t ulClockPin, uint32_t ulBitOrder)
 
         digitalWrite(ulClockPin, LOW);
     }
-
     return value;
 }
 
