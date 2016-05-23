@@ -31,6 +31,56 @@ extern "C" {
 #define log_error(format, ...)
 #endif
 
+/**@brief Macro for calling error handler function.
+ *
+ * @param[in] ERR_CODE Error code supplied to the error handler.
+ */
+#define APP_ERROR_HANDLER(ERR_CODE)                                    \
+    do                                                                 \
+    {                                                                  \
+        app_error_handler((ERR_CODE), __LINE__, (uint8_t*) __FILE__);  \
+    } while (0)
+
+/**@brief Macro for calling error handler function if supplied error code any other than NRF_SUCCESS.
+ *
+ * @param[in] ERR_CODE Error code supplied to the error handler.
+ */
+#define APP_ERROR_CHECK(ERR_CODE)                           \
+    do                                                      \
+    {                                                       \
+        const uint32_t LOCAL_ERR_CODE = (ERR_CODE);         \
+        if (LOCAL_ERR_CODE != NRF_SUCCESS)                  \
+        {                                                   \
+            APP_ERROR_HANDLER(LOCAL_ERR_CODE);              \
+        }                                                   \
+    } while (0)
+
+/**@brief Macro for calling error handler function if supplied boolean value is false.
+ *
+ * @param[in] BOOLEAN_VALUE Boolean value to be evaluated.
+ */
+#define APP_ERROR_CHECK_BOOL(BOOLEAN_VALUE)                   \
+    do                                                        \
+    {                                                         \
+        const uint32_t LOCAL_BOOLEAN_VALUE = (BOOLEAN_VALUE); \
+        if (!LOCAL_BOOLEAN_VALUE)                             \
+        {                                                     \
+            APP_ERROR_HANDLER(0);                             \
+        }                                                     \
+    } while (0)
+
+/** @brief Function for checking intended for production code.
+ *
+ * Check passes if "expr" evaluates to true. */
+#define ASSERT(expr) \
+if (expr)                                                                     \
+{                                                                             \
+}                                                                             \
+else                                                                          \
+{                                                                             \
+    assert_nrf_callback((uint16_t)__LINE__, (uint8_t *)__FILE__);             \
+}
+        
 #ifdef __cplusplus
 }
 #endif
