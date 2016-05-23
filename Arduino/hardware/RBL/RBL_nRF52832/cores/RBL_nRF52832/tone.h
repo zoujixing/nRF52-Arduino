@@ -6,7 +6,7 @@
 #include "wiring_constants.h"
 
 #define TONE_USED_GPIOTE_NUM          7
-#define TONE_USED_PPI_CHANNAL         19
+#define TONE_USED_PPI_CHANNAL         0
 #define TONE_USED_TIMER               NRF_TIMER1
 #define TONE_USED_TIMER_IRQn          TIMER1_IRQn
 #define TONE_USED_TIMER_IRQHandler    TIMER1_IRQHandler

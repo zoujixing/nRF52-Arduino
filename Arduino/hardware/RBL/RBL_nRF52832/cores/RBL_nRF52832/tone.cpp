@@ -1,5 +1,7 @@
 
 #include "tone.h"
+#include "app_util_platform.h"
+
 #include "nrf_soc.h"
 #include "nrf_sdm.h"
 /****************************************************
@@ -52,9 +54,10 @@ void tone(uint8_t pin, uint16_t freq, uint32_t duration)
                                                  (GPIOTE_CONFIG_POLARITY_Toggle << GPIOTE_CONFIG_POLARITY_Pos) |  //Task toggle
                                                  (GPIOTE_CONFIG_OUTINIT_Low << GPIOTE_CONFIG_OUTINIT_Pos) //Inital value LOW
                                                );
-#if nRF52832_WITH_SOFTDEVICE
+#if defined(SOFTDEVICE_PRESENT)
     // Check whether softdevice is enbale. 
-    uint8_t softdevice_enabled;
+    uint8_t  softdevice_enabled;
+    uint32_t error_code;
     sd_softdevice_is_enabled(&softdevice_enabled);
     if(softdevice_enabled == 0) {
         log_info("TONE : Softdevice is disable, config PPI \r\n");
@@ -64,8 +67,10 @@ void tone(uint8_t pin, uint16_t freq, uint32_t duration)
     }
     else {
         log_info("TONE : Softdevice is enable, config PPI \r\n");
-        sd_ppi_channel_assign(TONE_USED_PPI_CHANNAL, &TONE_USED_TIMER->EVENTS_COMPARE[0], &NRF_GPIOTE->TASKS_OUT[TONE_USED_GPIOTE_NUM]);
-        sd_ppi_channel_enable_set(1 << TONE_USED_PPI_CHANNAL);
+        error_code = sd_ppi_channel_assign(TONE_USED_PPI_CHANNAL, &TONE_USED_TIMER->EVENTS_COMPARE[0], &NRF_GPIOTE->TASKS_OUT[TONE_USED_GPIOTE_NUM]);
+        APP_ERROR_CHECK(error_code);
+        error_code = sd_ppi_channel_enable_set(1 << TONE_USED_PPI_CHANNAL);
+        APP_ERROR_CHECK(error_code);
     }
 #else
     log_info("TONE : Softdevice is not used, config PPI \r\n");
@@ -90,6 +95,7 @@ void tone(uint8_t pin, uint16_t freq, uint32_t duration)
     TONE_USED_TIMER->INTENCLR = 0xFFFFFFFF;
     TONE_USED_TIMER->INTENSET = (TIMER_INTENSET_COMPARE0_Enabled << TIMER_INTENSET_COMPARE0_Pos);
     // Enable IRQn
+    NVIC_SetPriority(TONE_USED_TIMER_IRQn, APP_IRQ_PRIORITY_LOW);
     NVIC_ClearPendingIRQ(TONE_USED_TIMER_IRQn);
     NVIC_EnableIRQ(TONE_USED_TIMER_IRQn);
     // Start TIMER
@@ -116,7 +122,7 @@ void noTone(uint8_t pin)
     TONE_USED_TIMER->TASKS_STOP = 1;
     NVIC_DisableIRQ(TONE_USED_TIMER_IRQn); 
 
-#if nRF52832_WITH_SOFTDEVICE
+#if defined(SOFTDEVICE_PRESENT)
     uint8_t softdevice_enabled;
     sd_softdevice_is_enabled(&softdevice_enabled);
     if(softdevice_enabled == 0) {
