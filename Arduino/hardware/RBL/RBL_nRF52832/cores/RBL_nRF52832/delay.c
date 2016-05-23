@@ -1,5 +1,6 @@
 
 #include "delay.h"
+#include "app_util_platform.h"
 
 /****************************************************
 *                 Local Variables
@@ -36,6 +37,8 @@ void RTC_DELAY_init(void)
     RTC_DELAY->EVTENSET = (RTC_EVTEN_OVRFLW_Enabled<<RTC_EVTEN_OVRFLW_Pos);
     RTC_DELAY->INTENSET = (RTC_INTENSET_OVRFLW_Enabled<<RTC_INTENSET_OVRFLW_Pos);
     // Enable IRQn
+    NVIC_SetPriority(RTC_DELAY_IRQn, APP_IRQ_PRIORITY_LOW);
+    NVIC_ClearPendingIRQ(RTC_DELAY_IRQn);
     NVIC_EnableIRQ(RTC_DELAY_IRQn);
     //
     overflow_count = 0;
@@ -43,7 +46,7 @@ void RTC_DELAY_init(void)
     RTC_DELAY->TASKS_START = 1;
 }
 
-uint32_t micos(void)
+uint32_t micros(void)
 {
     return (uint32_t)((overflow_count + RTC_DELAY->COUNTER) * 1000000 >> 15);
 }
@@ -63,7 +66,7 @@ void delay(uint32_t ms)
     }
 }
 
-void delayMicrosenconds(uint32_t us)
+void delayMicroseconds(uint32_t us)
 {
     uint32_t start_time;
     start_time = micros();
@@ -72,3 +75,4 @@ void delayMicrosenconds(uint32_t us)
         //
     } 
 }
+

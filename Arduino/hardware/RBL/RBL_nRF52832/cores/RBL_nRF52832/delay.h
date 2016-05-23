@@ -52,6 +52,79 @@ void delay(uint32_t ms);
  */
 void delayMicroseconds(uint32_t us);
 
+/*
+ * @brief Delay in us. Used in some app libraries.
+ *
+ * @param[in] us      Time in us.
+ */
+static void __INLINE nrf_delay_us(uint32_t volatile number_of_us) __attribute__((always_inline));
+static void __INLINE nrf_delay_us(uint32_t volatile number_of_us)
+{
+register uint32_t delay __ASM ("r0") = number_of_us;
+__ASM volatile (
+    "1:\n"
+    " SUBS %0, %0, #1\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"   
+    " NOP\n"  
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " NOP\n"
+    " BNE 1b\n"
+    : "+r" (delay));
+}
 
 #ifdef __cplusplus
 } 
