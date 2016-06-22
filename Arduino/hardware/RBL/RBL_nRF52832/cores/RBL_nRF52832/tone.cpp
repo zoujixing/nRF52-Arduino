@@ -19,11 +19,11 @@ void tone(uint8_t pin, uint16_t freq, uint32_t duration)
 {
     uint8_t nrf_pin;
     uint32_t compare, prescaler;
-    
+
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
     if(nrf_pin >= 31)
-        return;  
-    
+        return;
+
     log_info("TONE : Start a tone \r\n");
     // Find appropriate values for PRESCALER and COMPARE registers
     uint8_t index;
@@ -35,7 +35,7 @@ void tone(uint8_t pin, uint16_t freq, uint32_t duration)
         compare = compare - 1;
         if ((compare >= 2) && (compare <= 65535))
             break;
-    }  
+    }
     log_info("TONE : The prescaler is %d \r\n", prescaler);
     log_info("TONE : The compare is %d \r\n", compare);
     // Check duration
@@ -55,7 +55,7 @@ void tone(uint8_t pin, uint16_t freq, uint32_t duration)
                                                  (GPIOTE_CONFIG_OUTINIT_Low << GPIOTE_CONFIG_OUTINIT_Pos) //Inital value LOW
                                                );
 #if defined(SOFTDEVICE_PRESENT)
-    // Check whether softdevice is enbale. 
+    // Check whether softdevice is enbale.
     uint8_t  softdevice_enabled;
     uint32_t error_code;
     sd_softdevice_is_enabled(&softdevice_enabled);
@@ -78,20 +78,20 @@ void tone(uint8_t pin, uint16_t freq, uint32_t duration)
     NRF_PPI->CH[TONE_USED_PPI_CHANNAL].TEP = (uint32_t)(&NRF_GPIOTE->TASKS_OUT[TONE_USED_GPIOTE_NUM]);
     NRF_PPI->CHEN |= (1 << TONE_USED_PPI_CHANNAL);
 #endif
-    
+
     log_info("TONE : Init TIMIERx \r\n");
     // Configure TIMERx
     TONE_USED_TIMER->TASKS_STOP = 1;
     TONE_USED_TIMER->TASKS_CLEAR = 1;
-    
+
     TONE_USED_TIMER->MODE = TIMER_MODE_MODE_Timer;
     TONE_USED_TIMER->PRESCALER = prescaler;
     TONE_USED_TIMER->BITMODE = TIMER_BITMODE_BITMODE_16Bit;
     TONE_USED_TIMER->SHORTS = (TIMER_SHORTS_COMPARE0_CLEAR_Enabled << TIMER_SHORTS_COMPARE0_CLEAR_Pos);
-    
+
     TONE_USED_TIMER->CC[0] = (uint16_t)(compare);
     TONE_USED_TIMER->EVENTS_COMPARE[0] = 0;
-    
+
     TONE_USED_TIMER->INTENCLR = 0xFFFFFFFF;
     TONE_USED_TIMER->INTENSET = (TIMER_INTENSET_COMPARE0_Enabled << TIMER_INTENSET_COMPARE0_Pos);
     // Enable IRQn
@@ -105,22 +105,22 @@ void tone(uint8_t pin, uint16_t freq, uint32_t duration)
 
 void tone(uint8_t pin, uint16_t freq)
 {
-	tone(pin, freq, 0);
+    tone(pin, freq, 0);
 }
 
 void noTone(uint8_t pin)
 {
     uint8_t nrf_pin;
-    
+
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
     if(nrf_pin >= 31)
-        return;       
-    
+        return;
+
     if(nrf_pin != tone_pin)
         return;
     // Stop TIMER
     TONE_USED_TIMER->TASKS_STOP = 1;
-    NVIC_DisableIRQ(TONE_USED_TIMER_IRQn); 
+    NVIC_DisableIRQ(TONE_USED_TIMER_IRQn);
 
 #if defined(SOFTDEVICE_PRESENT)
     uint8_t softdevice_enabled;
@@ -151,7 +151,7 @@ void TONE_USED_TIMER_IRQHandler(void)
     //log_info("TONE : TIMERx IRQ \r\n");
     TONE_USED_TIMER->EVENTS_COMPARE[0] = 0;
     if(finish_flag == 1) {
-        if(inter_count) 
+        if(inter_count)
             inter_count--;
         else
             noTone(tone_pin);
@@ -159,5 +159,5 @@ void TONE_USED_TIMER_IRQHandler(void)
 }
 
 #ifdef __cplusplus
-} 
+}
 #endif

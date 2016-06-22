@@ -17,6 +17,7 @@ extern "C"{
 #endif 
 
 #include "device_common.h"
+#include "nrf_lib.h"
 
 #include "nrf_clock.h"
 #include "delay.h"
@@ -43,5 +44,5 @@ extern void loop( void );
 #include "wiring_uart.h"
 #include "tone.h"
 
-
 #endif 
+
