@@ -1,7 +1,16 @@
 
-dap_link.name=DAPLink
-dap_link.communication=USB
+dap_link.name=DAP-Link
+dap_link.name.communication=USB
 dap_link.name.protocol=
-dap_link.program.protocol=
-dap_link.tool=openocd
-dap_link.extra_params=
+dap_link.name.program.protocol=
+dap_link.program.tool=openocd
+dap_link.program.interface=cmsis-dap
+dap_link.program.extra_params=
+
+jlink.name=JLink
+jlink.name.communication=USB
+jlink.name.protocol=
+jlink.name.program.protocol=
+jlink.program.tool=openocd
+jlink.program.interface=jlink
+jlink.program.setup_command=transport select swd; set WORKAREASIZE 0;

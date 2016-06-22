@@ -8,7 +8,7 @@ name=RedBearLab Boards
 #compiler.path={runtime.tools.arm-none-eabi-gcc-4.9.3-2015q1.path}/bin/
 compiler.path={runtime.platform.path}/tools/arm-none-eabi-4.9.3-2015q1/bin/
 
-# Compile defined
+# Compile defined  
 compiler.device.define=-DNRF52 -DSOFTDEVICE_PRESENT -DBOARD_PCA10040 -DS132 -DCONFIG_GPIO_AS_PINRESET -DBLE_STACK_SUPPORT_REQD -DSWI_DISABLE0
 compiler.platform.define=-DNRF52_PAN_24 -DNRF52_PAN_25 -DNRF52_PAN_26 -DNRF52_PAN_27 -DNRF52_PAN_28 -DNRF52_PAN_29 -DNRF52_PAN_30 -DNRF52_PAN_32 -DNRF52_PAN_33 -DNRF52_PAN_34 -DNRF52_PAN_35 -DNRF52_PAN_36 -DNRF52_PAN_37 -DNRF52_PAN_38 -DNRF52_PAN_39 -DNRF52_PAN_40 -DNRF52_PAN_41 -DNRF52_PAN_42 -DNRF52_PAN_43 -DNRF52_PAN_44 -DNRF52_PAN_46 -DNRF52_PAN_47 -DNRF52_PAN_48 -DNRF52_PAN_49 -DNRF52_PAN_58 -DNRF52_PAN_63 -DNRF52_PAN_64 -DNRF52_PAN_65 -DNRF52_PAN_1 -DNRF52_PAN_2 -DNRF52_PAN_3 -DNRF52_PAN_4 -DNRF52_PAN_7 -DNRF52_PAN_8 -DNRF52_PAN_9 -DNRF52_PAN_10 -DNRF52_PAN_11 -DNRF52_PAN_12 -DNRF52_PAN_15 -DNRF52_PAN_16 -DNRF52_PAN_17 -DNRF52_PAN_20 -DNRF52_PAN_23
 
@@ -70,8 +70,8 @@ recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.f
 recipe.objcopy.eep.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
 
 ## Create hex
-recipe.objcopy.hex1.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flagx} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}_OTA.hex" 
-recipe.objcopy.hex2.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} "{build.path}/{build.project_name}.bin" "{build.path}/{build.project_name}.bin.hex" 
+recipe.objcopy.hex1.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flagx} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.hex"
+#recipe.objcopy.hex2.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} "{build.path}/{build.project_name}.bin" "{build.path}/{build.project_name}.bin.hex"
 
 ## Save hex
 recipe.output.tmp_file={build.project_name}_OTA.hex
@@ -91,17 +91,6 @@ recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {
 # RBL_nRF51822 Uploader tools
 # ----------------------
 
-## avrdude tool
-
-tools.avrdude.cmd.path={runtime.tools.avrdude.path}/bin/avrdude
-tools.avrdude.config.path={runtime.platform.path}/avrdude_conf/avrdude.conf 
-tools.avrdude.cmd.path.linux={runtime.tools.avrdude.path}/bin/avrdude
-tools.avrdude.config.path.linux={runtime.platform.path}/avrdude_conf/avrdude.conf
-
-tools.avrdude.upload.params.verbose=-v -v -v -v
-tools.avrdude.upload.params.quiet=-q -q
-tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} -p{build.mcu} -c{upload.protocol} -P{serial.port} -b{upload.speed} -D "-Uflash:w:{build.path}/{build.project_name}.hex:i"
-
 ## OpenOCD tool
 
 #tools.openocd.path={runtime.tools.openocd.path}
@@ -111,7 +100,7 @@ tools.openocd.cmd.windows=bin/openocd.exe
 
 tools.openocd.upload.params.verbose=-d1
 tools.openocd.upload.params.quiet=-d0
-tools.openocd.upload.pattern="{path}/{cmd}" {upload.params.verbose} -s "{path}/share/openocd/scripts/" -f "{path}/share/openocd/scripts/interface/cmsis-dap.cfg" -f "{path}/share/openocd/scripts/target/nrf51.cfg" -c "init;reset halt;flash erase_address 0x3FC00 0x400;flash fillw 0x3FC00 0x00000001 1;flash fillw 0x3FC04 0x000000FF 1;flash fillw 0x3FC08 0x00000000 1;program {{{build.path}/{build.project_name}.bin}} verify reset exit 0x1C000"
+tools.openocd.upload.pattern="{path}/{cmd}" {upload.params.verbose} -s "{path}/share/openocd/scripts/" -f "{path}/share/openocd/scripts/interface/{upload.interface}.cfg" -f "{path}/share/openocd/scripts/target/{upload.target}.cfg" -c "program {{{build.path}/{build.project_name}.bin}} verify reset exit"
 
 tools.openocd.program.params.verbose=-d2
 tools.openocd.program.params.quiet=-d0
@@ -123,7 +112,5 @@ tools.openocd.erase.pattern=
 
 tools.openocd.bootloader.params.verbose=-d1
 tools.openocd.bootloader.params.quiet=-d0
-tools.openocd.bootloader.pattern="{path}/{cmd}" {bootloader.verbose} -s "{path}/share/openocd/scripts/" -f "{path}/share/openocd/scripts/interface/cmsis-dap.cfg" -f "{path}/share/openocd/scripts/target/nrf51.cfg" -c "init; reset halt; nrf51 mass_erase; program {{{runtime.platform.path}/bootloaders/{bootloader.bootloader_file}}} verify reset exit"
-
-
+tools.openocd.bootloader.pattern="{path}/{cmd}" {bootloader.verbose} -s "{path}/share/openocd/scripts/" -f "{path}/share/openocd/scripts/interface/{upload.interface}.cfg" -f "{path}/share/openocd/scripts/target/{upload.target}.cfg" -c "program {{{runtime.platform.path}/bootloaders/{bootloader.bootloader_file}}} verify reset exit"
 

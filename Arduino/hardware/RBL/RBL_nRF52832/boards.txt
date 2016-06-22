@@ -4,12 +4,17 @@ nRF52832_NANO.name=nRF52832 Nano
 
 nRF52832_NANO.upload.tool=openocd
 nRF52832_NANO.upload.protocol=
+nRF52832_NANO.upload.interface=cmsis-dap
+nRF52832_NANO.upload.target=nrf52
 nRF52832_NANO.upload.maximum_size=524288
 nRF52832_NANO.upload.maximum_data_size=65536
 nRF52832_NANO.upload.speed=115200
-nRF52832_NANO.upload.disable_flushing=true
-nRF52832_NANO.upload.use_1200bps_touch=true
+nRF52832_NANO.upload.disable_flushing=false
+nRF52832_NANO.upload.use_1200bps_touch=false
 nRF52832_NANO.upload.wait_for_upload_port=false
+
+nRF52832_NANO.bootloader.tool=openocd
+nRF52832_NANO.bootloader_file=s132_nrf52_2.0.0_softdevice.hex
 
 nRF52832_NANO.build.mcu=cortex-m4
 nRF52832_NANO.build.f_cpu=64000000
@@ -19,30 +24,34 @@ nRF52832_NANO.build.core=RBL_nRF52832
 nRF52832_NANO.build.variant=nRF52832_Nano
 nRF52832_NANO.build.ldscript=linker_scripts/gcc/nrf52832_nano.ld
 nRF52832_NANO.build.ld_include="-L{runtime.platform.path}/variants/nRF52832_Nano/linker_scripts/gcc"
-nRF52832_NANO.build.variant_system_include= "-I{build.system.path}/CMSIS/Include"
+nRF52832_NANO.build.variant_system_include="-I{build.system.path}/CMSIS/Include"
 nRF52832_NANO.build.include_paths="-I{runtime.platform.path}/cores/RBL_nRF52832/device" "-I{runtime.platform.path}/cores/RBL_nRF52832/headers" "-I{runtime.platform.path}/cores/RBL_nRF52832/headers/nrf52" "-I{runtime.platform.path}/cores/RBL_nRF52832/libraries" "-I{runtime.platform.path}/cores/RBL_nRF52832/softdevice_handler"
 ##############################################################
 
+nRF52DK.name=nRF52DK(PCA10040)
 
-nRF52832_NANO_SoftDevice.name=nRF52832 Nano SoftDevice
+nRF52DK.upload.tool=openocd
+nRF52DK.upload.protocol=
+nRF52DK.upload.interface=jlink
+nRF52DK.upload.target=nrf52
+nRF52DK.upload.maximum_size=524288
+nRF52DK.upload.maximum_data_size=65536
+nRF52DK.upload.speed=115200
+nRF52DK.upload.disable_flushing=false
+nRF52DK.upload.use_1200bps_touch=false
+nRF52DK.upload.wait_for_upload_port=false
 
-nRF52832_NANO_SoftDevice.upload.tool=openocd
-nRF52832_NANO_SoftDevice.upload.protocol=
-nRF52832_NANO_SoftDevice.upload.maximum_size=524288
-nRF52832_NANO_SoftDevice.upload.maximum_data_size=65536
-nRF52832_NANO_SoftDevice.upload.speed=115200
-nRF52832_NANO_SoftDevice.upload.disable_flushing=true
-nRF52832_NANO_SoftDevice.upload.use_1200bps_touch=true
-nRF52832_NANO_SoftDevice.upload.wait_for_upload_port=false
+nRF52DK.bootloader.tool=openocd
+nRF52DK.bootloader_file=s132_nrf52_2.0.0_softdevice.hex
 
-nRF52832_NANO_SoftDevice.build.mcu=cortex-m4
-nRF52832_NANO_SoftDevice.build.f_cpu=64000000
-nRF52832_NANO_SoftDevice.build.usb_product="Arduino RBL"
-nRF52832_NANO_SoftDevice.build.board=RBL_nRF52832
-nRF52832_NANO_SoftDevice.build.core=RBL_nRF52832
-nRF52832_NANO_SoftDevice.build.variant=nRF52832_Nano_SoftDevice
-nRF52832_NANO_SoftDevice.build.ldscript=linker_scripts/gcc/nrf52832_nano_softdevice.ld
-nRF52832_NANO_SoftDevice.build.ld_include="-L{runtime.platform.path}/variants/nRF52832_Nano_SoftDevice/linker_scripts/gcc"
-nRF52832_NANO_SoftDevice.build.variant_system_include= "-I{build.system.path}/CMSIS/Include"
-nRF52832_NANO_SoftDevice.build.include_paths="-I{runtime.platform.path}/cores/RBL_nRF52832/device" "-I{runtime.platform.path}/cores/RBL_nRF52832/headers" "-I{runtime.platform.path}/cores/RBL_nRF52832/headers/nrf52" "-I{runtime.platform.path}/cores/RBL_nRF52832/libraries" "-I{runtime.platform.path}/cores/RBL_nRF52832/softdevice_handler"
+nRF52DK.build.mcu=cortex-m4
+nRF52DK.build.f_cpu=64000000
+nRF52DK.build.usb_product="Arduino RBL"
+nRF52DK.build.board=RBL_nRF52832
+nRF52DK.build.core=RBL_nRF52832
+nRF52DK.build.variant=nRF52DK
+nRF52DK.build.ldscript=linker_scripts/gcc/nRF52DK.ld
+nRF52DK.build.ld_include="-L{runtime.platform.path}/variants/nRF52DK/linker_scripts/gcc"
+nRF52DK.build.variant_system_include="-I{build.system.path}/CMSIS/Include" 
+nRF52DK.build.include_paths="-I{runtime.platform.path}/cores/RBL_nRF52832/device" "-I{runtime.platform.path}/cores/RBL_nRF52832/headers" "-I{runtime.platform.path}/cores/RBL_nRF52832/headers/nrf52" "-I{runtime.platform.path}/cores/RBL_nRF52832/libraries" "-I{runtime.platform.path}/cores/RBL_nRF52832/softdevice_handler"
 ##############################################################
