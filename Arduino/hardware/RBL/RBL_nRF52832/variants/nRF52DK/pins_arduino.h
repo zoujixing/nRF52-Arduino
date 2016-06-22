@@ -39,9 +39,9 @@
 #define A4  D20
 #define A5  D21
 
-#define SCK  D11 
-#define MISO D12
-#define MOSI D13
+#define DEFAULT_SCK  D11 
+#define DEFAULT_MISO D12
+#define DEFAULT_MOSI D13
 
 #define SDA0 D2
 #define SCL0 D3
