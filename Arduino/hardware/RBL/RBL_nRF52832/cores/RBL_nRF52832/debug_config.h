@@ -14,9 +14,9 @@ extern "C" {
 #define LOG_ERROR_ENABLE  1
 
 #if LOG_USER_ENABLE
-#define log_info(format, ...)  debug_print(LOG_LEVEL_INFO, format,  ## __VA_ARGS__)
+#define log_user(format, ...)  debug_print(LOG_LEVEL_INFO, format,  ## __VA_ARGS__)
 #else
-#define log_info(format, ...)
+#define log_user(format, ...)
 #endif
 
 #if LOG_INFOR_ENABLE
