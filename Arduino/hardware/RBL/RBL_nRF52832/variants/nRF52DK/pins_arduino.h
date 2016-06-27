@@ -46,8 +46,8 @@
 #define SDA0 D2
 #define SCL0 D3
 
-#define SDA1 D14
-#define SCL1 D15
+#define SDA1 26 //D14
+#define SCL1 27 //D15
 
 #define LED D13
 
