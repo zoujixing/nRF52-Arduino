@@ -4,7 +4,7 @@
 
 #include "Arduino.h"
 
-#define SPI_USED  NRF_SPI1
+#define SPI_USED  NRF_SPI0
 
 #define SPI_FREQUENCY_125K 0x02000000UL
 #define SPI_FREQUENCY_250K 0x04000000UL
