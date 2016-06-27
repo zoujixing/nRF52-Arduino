@@ -11,7 +11,7 @@
 
 class Ring_Buffer
 {
-private:
+public:
 	uint8_t  ring_buffer[RING_BUFFER_MAX_SIZE];
 	uint16_t head;
 	uint16_t tail;
