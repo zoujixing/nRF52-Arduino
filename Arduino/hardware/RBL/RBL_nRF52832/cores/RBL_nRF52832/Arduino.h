@@ -41,6 +41,7 @@ extern void loop( void );
 } 
 #endif 
 
+#include "WMath.h"
 #include "wiring_uart.h"
 #include "tone.h"
 
