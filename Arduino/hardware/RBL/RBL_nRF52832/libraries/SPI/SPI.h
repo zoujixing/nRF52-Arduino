@@ -32,12 +32,12 @@ class SPIClass
 public:
     SPIClass(NRF_SPI_Type *p_spi);
 
-    /*
+    /**
      * @brief SPI begin
      */
     void begin(void);
 
-    /*
+    /**
      * @brief SPI begin
      *
      * @param[in]  sck
@@ -46,7 +46,7 @@ public:
      */
     void begin(uint32_t sck, uint32_t mosi, uint32_t miso);
 
-    /*
+    /**
      * @brief SPI transfer one byte
      *
      * @param[in]  data  Data to be sending
@@ -55,12 +55,12 @@ public:
      */
     uint8_t transfer(uint8_t data);
 
-    /*
+    /**
      * @brief Diable SPIx
      */
     void end(void);
 
-    /*
+    /**
      * @brief Set SPIx mode
      *
      * @param[in]  mode    SPI_MODE0 : CPOL_ActiveHigh, CPHA_Leading
@@ -70,21 +70,21 @@ public:
      */
     void setSPIMode(uint8_t mode);
 
-    /*
+    /**
      * @brief Set frequency
      *
      * @param[in]  speed  0~6 is Corresponding to SPI_125K, SPI_250K, SPI_500K, SPI_1M, SPI_2M, SPI_4M, SPI_8M
      */
     void setFrequency(uint8_t speed);
 
-    /*
+    /**
      * @brief Set BIT order
      *
      * @param[in]  bit  MSBFIRST or LSBFIRST
      */
     void setORDER(BitOrder bit);
 
-    /*
+    /**
      * @brief Set sck phase
      *
      * @param[in]  trailing  0 Leading   : Sample on leading edge of clock, shift serial data on trailing edge
@@ -92,7 +92,7 @@ public:
      */
     void setCPHA(bool trailing);
 
-    /*
+    /**
      * @brief Set sck polarity
      *
      * @param[in]  active   0 ActiveHigh : Active high

@@ -134,7 +134,7 @@ uint32_t analogRead(uint8_t pin)
         NRF_SAADC->CH[i].PSELP = SAADC_CH_PSELP_PSELP_NC;
     }
     // Input range = (+- 0.6 V or +-VDD/4)/Gain
-    // RESULT = [V(P) – V(N) ] * GAIN/REFERENCE * 2(RESOLUTION - m)
+    // RESULT = [V(P) – V(N) ] * GAIN/REFERENCE * 2^(RESOLUTION - m)
     // If CONFIG.MODE=SE,m=0 or if CONFIG.MODE=Diff,m=1. 
     if(saadReference == SAADC_CH_CONFIG_REFSEL_Internal) {
         log_info("ANALOG : Reference is Internal 0.6V, Input valtage is 0~3.6V\r\n");
