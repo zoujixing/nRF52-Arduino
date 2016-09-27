@@ -11,7 +11,7 @@ typedef void (*rx_callback_t)(void);
 
 /****************************************************
 *                 Type Definitions
-****************************************************/ 
+****************************************************/
 
 class UARTClass : public HardwareSerial
 {
@@ -25,11 +25,11 @@ public:
     int  read(void);
     void flush(void);
     size_t write(uint8_t dat);
-    
-    void attach(rx_callback_t handler); 
-    
-    using Print::write; 
-    
+
+    void attach(rx_callback_t handler);
+
+    using Print::write;
+
     operator bool() {
         return true;
     };

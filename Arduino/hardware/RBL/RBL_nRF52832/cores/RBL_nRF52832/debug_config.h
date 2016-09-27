@@ -27,7 +27,7 @@ extern "C" {
 
 #if LOG_ERROR_ENABLE
 #define log_error(format, ...) debug_print(LOG_LEVEL_ERROR, format,  ## __VA_ARGS__)
-#else 
+#else
 #define log_error(format, ...)
 #endif
 
@@ -80,7 +80,7 @@ else                                                                          \
 {                                                                             \
     assert_nrf_callback((uint16_t)__LINE__, (uint8_t *)__FILE__);             \
 }
-        
+
 #ifdef __cplusplus
 }
 #endif

@@ -14,7 +14,7 @@
 
 #ifdef __cplusplus
 extern "C"{
-#endif 
+#endif
 
 #include "device_common.h"
 #include "nrf_lib.h"
@@ -33,17 +33,17 @@ extern "C"{
 
 void yield(void);
 
-//sketch 
+//sketch
 extern void setup( void );
 extern void loop( void );
 
 #ifdef __cplusplus
-} 
-#endif 
+}
+#endif
 
 #include "WMath.h"
 #include "wiring_uart.h"
 #include "tone.h"
 
-#endif 
+#endif
 

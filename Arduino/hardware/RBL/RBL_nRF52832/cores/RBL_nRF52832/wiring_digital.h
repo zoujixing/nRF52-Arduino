@@ -16,12 +16,12 @@ extern "C" {
  * @param[in] mode  Pin mode:INPUT,OUTPUT,INPUT_PULLUP,INPUT_PULLDOWN.
  */
 void pinMode(uint8_t pin, uint8_t mode);
- 
+
 /*
  * @brief Write digital pin.
  *
- * @param[in] pin 
- * @param[in] value Pin status:HIGH or LOW.  
+ * @param[in] pin
+ * @param[in] value Pin status:HIGH or LOW.
  */
 void digitalWrite(uint8_t pin, uint32_t value);
 

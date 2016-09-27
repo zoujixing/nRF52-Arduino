@@ -21,12 +21,12 @@ static uint32_t saadReference   = SAADC_CH_CONFIG_REFSEL_VDD1_4;
 static uint8_t  pwm0_is_init = 0;
 static uint8_t  pwm1_is_init = 0;
 static uint8_t  pwm_ch_pin[2][4] = { {0xFF, 0xFF, 0xFF, 0xFF}, {0xFF, 0xFF, 0xFF, 0xFF}};
-static uint16_t pwm_seq[2][4]    = { {0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE},  
+static uint16_t pwm_seq[2][4]    = { {0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE},
                                      {0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE, 0x00|PWM_POLARITY_MODE} };
 
 /****************************************************
 *                 Function Definitions
-****************************************************/ 
+****************************************************/
 static inline uint32_t conversionResolution(uint32_t value, uint32_t from, uint32_t to)
 {
     if (from == to)
@@ -34,7 +34,7 @@ static inline uint32_t conversionResolution(uint32_t value, uint32_t from, uint3
     if (from > to)
         return value >> (from-to);
     else
-        return value << (to-from);    
+        return value << (to-from);
 }
 
 void analogReadResolution(uint8_t resolution)
@@ -69,7 +69,7 @@ uint32_t analogRead(uint8_t pin)
     uint32_t resolution;
     uint32_t config_gain = SAADC_CH_CONFIG_GAIN_Gain1_4;
     uint32_t pselp = SAADC_CH_PSELP_PSELP_NC;
-    
+
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
     switch( nrf_pin ) {
         case 2:
@@ -96,11 +96,11 @@ uint32_t analogRead(uint8_t pin)
         case 31:
           pselp = SAADC_CH_PSELP_PSELP_AnalogInput7;
           break;
-        default : 
+        default :
           log_error("ANALOG : Wrong PSELP \r\n");
           return 0;
     }
-    
+
     if(readResolution <= 8) {
         resolution = 8;
         saadcResolution = SAADC_RESOLUTION_VAL_8bit;
@@ -112,13 +112,13 @@ uint32_t analogRead(uint8_t pin)
     else if(readResolution <= 12) {
         resolution = 12;
         saadcResolution = SAADC_RESOLUTION_VAL_12bit;
-    }   
+    }
     else {
         resolution = 14;
         saadcResolution = SAADC_RESOLUTION_VAL_14bit;
     }
     log_info("ANALOG : Resolution is %d \r\n", resolution);
-    
+
     NRF_SAADC->RESOLUTION  = saadcResolution;
     // Bypass oversampling
     NRF_SAADC->OVERSAMPLE  = (SAADC_OVERSAMPLE_OVERSAMPLE_Bypass << SAADC_OVERSAMPLE_OVERSAMPLE_Pos);
@@ -135,11 +135,11 @@ uint32_t analogRead(uint8_t pin)
     }
     // Input range = (+- 0.6 V or +-VDD/4)/Gain
     // RESULT = [V(P) – V(N) ] * GAIN/REFERENCE * 2^(RESOLUTION - m)
-    // If CONFIG.MODE=SE,m=0 or if CONFIG.MODE=Diff,m=1. 
+    // If CONFIG.MODE=SE,m=0 or if CONFIG.MODE=Diff,m=1.
     if(saadReference == SAADC_CH_CONFIG_REFSEL_Internal) {
         log_info("ANALOG : Reference is Internal 0.6V, Input valtage is 0~3.6V\r\n");
         config_gain = SAADC_CH_CONFIG_GAIN_Gain1_6;
-    }  
+    }
     else if(saadReference == SAADC_CH_CONFIG_REFSEL_VDD1_4) {
         log_info("ANALOG : Reference is VDD \r\n");
         config_gain = SAADC_CH_CONFIG_GAIN_Gain1_4;
@@ -153,7 +153,7 @@ uint32_t analogRead(uint8_t pin)
                                 (SAADC_CH_CONFIG_BURST_Disabled << SAADC_CH_CONFIG_BURST_Pos) //Disable burst mode(normal operation).
                                );
     NRF_SAADC->CH[0].PSELN = SAADC_CH_PSELP_PSELP_NC;
-    NRF_SAADC->CH[0].PSELP = pselp;    
+    NRF_SAADC->CH[0].PSELP = pselp;
     // Set DMA RAM.
     saadc_value = 0;
     NRF_SAADC->RESULT.PTR = (uint32_t)&saadc_value;
@@ -171,13 +171,13 @@ uint32_t analogRead(uint8_t pin)
     NRF_SAADC->TASKS_STOP = 1;
     while(!NRF_SAADC->EVENTS_STOPPED);
     NRF_SAADC->EVENTS_STOPPED = 0;
-    
+
     log_info("ANALOG : Sample saadc_value %d \r\n", saadc_value);
     if(saadc_value < 0)
         saadc_value = 0;
     // Disable SAADC.
     NRF_SAADC->ENABLE = (SAADC_ENABLE_ENABLE_Disabled << SAADC_ENABLE_ENABLE_Pos);
-    
+
     return conversionResolution(saadc_value, resolution, readResolution);
 }
 
@@ -193,7 +193,7 @@ static uint8_t pwm_enable(NRF_PWM_Type *pwm)
 {
     if( (pwm != NRF_PWM0) && (pwm != NRF_PWM1) )
         return 1;
-    
+
     pwm->PSEL.OUT[0] = (PWM_PSEL_OUT_CONNECT_Disconnected << PWM_PSEL_OUT_CONNECT_Pos);
     pwm->PSEL.OUT[1] = (PWM_PSEL_OUT_CONNECT_Disconnected << PWM_PSEL_OUT_CONNECT_Pos);
     pwm->PSEL.OUT[2] = (PWM_PSEL_OUT_CONNECT_Disconnected << PWM_PSEL_OUT_CONNECT_Pos);
@@ -217,14 +217,14 @@ static uint8_t pwm_enable(NRF_PWM_Type *pwm)
     // 1st half word (16-bit) in ch.0; 2nd in ch.1; ...; 4th in ch.3
     // SEQ[n].REFRESH is used to determine loading internal compare registers
     pwm->DECODER    = ( (PWM_DECODER_LOAD_Individual << PWM_DECODER_LOAD_Pos) |
-                        (PWM_DECODER_MODE_RefreshCount << PWM_DECODER_MODE_Pos) );                         
+                        (PWM_DECODER_MODE_RefreshCount << PWM_DECODER_MODE_Pos) );
     // Clear event flags
     pwm->EVENTS_LOOPSDONE = 0;
     pwm->EVENTS_SEQEND[0] = 0;
     pwm->EVENTS_SEQEND[1] = 0;
     pwm->EVENTS_STOPPED   = 0;
     //
-    if(pwm == NRF_PWM0)    
+    if(pwm == NRF_PWM0)
         pwm->SEQ[0].PTR = (((uint32_t)(&pwm_seq[0][0])) << PWM_SEQ_PTR_PTR_Pos);
     else
         pwm->SEQ[0].PTR = (((uint32_t)(&pwm_seq[1][0])) << PWM_SEQ_PTR_PTR_Pos);
@@ -232,7 +232,7 @@ static uint8_t pwm_enable(NRF_PWM_Type *pwm)
     //
     pwm->SEQ[0].REFRESH  = 1;
     pwm->SEQ[0].ENDDELAY = 0;
-    
+
     return 0;
 }
 
@@ -241,7 +241,7 @@ void analogWrite(uint8_t pin, uint32_t value)
     uint8_t  index, pwm_num, pwm_ch_num;
     uint8_t  nrf_pin;
     uint16_t temp_value, update_value, temp;
-    
+
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
     if(nrf_pin >= 31)
         return;
@@ -266,7 +266,7 @@ void analogWrite(uint8_t pin, uint32_t value)
             else {
                 NRF_PWM1->TASKS_SEQSTART[0] = 1;
                 while(NRF_PWM1->EVENTS_SEQSTARTED[0] == 0);
-                NRF_PWM1->EVENTS_SEQSTARTED[0] = 0;                
+                NRF_PWM1->EVENTS_SEQSTARTED[0] = 0;
             }
             return;
         }
@@ -284,7 +284,7 @@ void analogWrite(uint8_t pin, uint32_t value)
                 if(!pwm0_is_init) {
                     log_info("ANALOG : Init PWM0 \r\n");
                     pwm_enable(NRF_PWM0);
-                    pwm0_is_init = 1;                    
+                    pwm0_is_init = 1;
                 }
                 NRF_PWM0->PSEL.OUT[pwm_ch_num] = ((nrf_pin << PWM_PSEL_OUT_PIN_Pos) |
                                                   (PWM_PSEL_OUT_CONNECT_Connected << PWM_PSEL_OUT_CONNECT_Pos));
@@ -297,7 +297,7 @@ void analogWrite(uint8_t pin, uint32_t value)
                 if(!pwm1_is_init) {
                     log_info("ANALOG : Init PWM1 \r\n");
                     pwm_enable(NRF_PWM1);
-                    pwm1_is_init = 1;                    
+                    pwm1_is_init = 1;
                 }
                 NRF_PWM1->PSEL.OUT[pwm_ch_num] = ((nrf_pin << PWM_PSEL_OUT_PIN_Pos) |
                                                   (PWM_PSEL_OUT_CONNECT_Connected << PWM_PSEL_OUT_CONNECT_Pos));
@@ -306,7 +306,7 @@ void analogWrite(uint8_t pin, uint32_t value)
                 NRF_PWM1->EVENTS_SEQSTARTED[0] = 0;
             }
             return;
-        }       
+        }
     }
     log_error("ANALOG : More than 8 channels \r\n");
 }

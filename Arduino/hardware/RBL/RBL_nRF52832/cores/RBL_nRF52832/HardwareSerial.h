@@ -26,7 +26,7 @@
 class HardwareSerial : public WStream
 {
   public:
-	void begin(uint32_t baudRate);
+    void begin(uint32_t baudRate);
     void begin(uint32_t baudRate, uint8_t tx_pin, uint8_t rx_pin);
     void end(void);
     virtual int available(void) = 0;

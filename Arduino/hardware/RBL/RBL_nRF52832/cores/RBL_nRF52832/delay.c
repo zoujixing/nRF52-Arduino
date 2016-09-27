@@ -10,18 +10,18 @@ static volatile uint64_t overflow_count;
 
 /****************************************************
 *                 Function Definitions
-****************************************************/ 
+****************************************************/
 void RTC_DELAY_IRQ_Hanler(void)
 {
     if(RTC_DELAY->EVENTS_OVRFLW)
-    {   
+    {
         log_info("DELAY : Event overflw \r\n");
         // RTC is 24bit, so overflow counter is (0xFFFFFF+1=0x1000000).
         overflow_count += 0x1000000;
-        // 40bits = 1099511627775(ticks) * (1/32768) = 388 days. 
+        // 40bits = 1099511627775(ticks) * (1/32768) = 388 days.
         overflow_count &= 0xFFFFFFFFFF;
         RTC_DELAY->EVENTS_OVRFLW = 0;
-    }  
+    }
 }
 
 void RTC_DELAY_init(void)
@@ -73,6 +73,6 @@ void delayMicroseconds(uint32_t us)
     while((micros() - start_time) < us)
     {
         //
-    } 
+    }
 }
 

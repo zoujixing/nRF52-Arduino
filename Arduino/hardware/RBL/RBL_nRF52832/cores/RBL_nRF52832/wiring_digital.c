@@ -9,11 +9,11 @@
 
 /****************************************************
 *                 Function Definitions
-****************************************************/ 
+****************************************************/
 void pinMode(uint8_t pin, uint8_t mode)
-{   
+{
     uint8_t nrf_pin;
-    
+
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
     if(nrf_pin >= 31)
         return;
@@ -43,7 +43,7 @@ void pinMode(uint8_t pin, uint8_t mode)
                                        | (GPIO_PIN_CNF_INPUT_Disconnect << GPIO_PIN_CNF_INPUT_Pos)
                                        | (GPIO_PIN_CNF_DIR_Input << GPIO_PIN_CNF_DIR_Pos);
         break ;
-        
+
         case INPUT_NOPULL:
             NRF_GPIO->PIN_CNF[nrf_pin] = (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos)
                                        | (GPIO_PIN_CNF_DRIVE_S0S1 << GPIO_PIN_CNF_DRIVE_Pos)
@@ -144,7 +144,7 @@ int digitalRead(uint8_t pin)
     uint8_t nrf_pin;
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
     if(nrf_pin < 31)
-    {   
+    {
         return ((NRF_GPIO->IN >> nrf_pin) & 1UL);
     }
     return -1;

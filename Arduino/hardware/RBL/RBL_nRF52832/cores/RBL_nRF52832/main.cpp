@@ -1,5 +1,4 @@
 
-
 #define ARDUINO_MAIN
 
 #include "Arduino.h"
@@ -14,7 +13,7 @@ int main(void)
     LFCLK_init();
     HFCLK_init();
     RTC_DELAY_init();
-    
+
     setup();
 
     for (;;)

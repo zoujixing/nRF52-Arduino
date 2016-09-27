@@ -12,7 +12,7 @@ static rx_callback_t uart_rx_handler = NULL;
 
 /****************************************************
 *                 Function Definitions
-****************************************************/ 
+****************************************************/
 void uart_irq_handler(void)
 {
     if(UART0_readRxState())
@@ -39,31 +39,31 @@ void UARTClass::begin(uint32_t baudRate)
 }
 
 void UARTClass::begin(uint32_t baudRate, uint8_t tx_pin, uint8_t rx_pin)
-{ 
+{
     uint8_t nrf_tx_pin;
     uint8_t nrf_rx_pin;
-    
+
     nrf_tx_pin = Pin_nRF51822_to_Arduino(tx_pin);
     nrf_rx_pin = Pin_nRF51822_to_Arduino(rx_pin);
-    
+
     uart_rx_buf.clear();
     UART0_registRxHandler(uart_irq_handler);
-    UART0_init(nrf_tx_pin, nrf_rx_pin, baudRate);   
+    UART0_init(nrf_tx_pin, nrf_rx_pin, baudRate);
     debug_open();
 }
 
 void UARTClass::end(void)
 {
-    UART0_uninit(); 
+    UART0_uninit();
     UART0_registRxHandler(NULL);
     uart_rx_buf.clear();
     debug_close();
-    
+
     uart_rx_handler = NULL;
 }
 
 int UARTClass::available(void)
-{  
+{
     return uart_rx_buf.available();
 }
 
@@ -79,7 +79,7 @@ int UARTClass::peek(void)
 
 void UARTClass::flush(void)
 {
-    
+
 }
 
 size_t UARTClass::write(uint8_t dat)

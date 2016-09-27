@@ -65,7 +65,7 @@ void debug_close(void);
  * @brief Pring log
  *
  * @param[in] log_level LOG_LEVEL_INFO or LOG_LEVEL_ERROR
- * @param[in] *format   
+ * @param[in] *format
  * @param[in] ...
  */
 void debug_print(uint8_t log_level, const char *format, ...);
@@ -73,13 +73,13 @@ void debug_print(uint8_t log_level, const char *format, ...);
 /**
  * @brief Pring error information
  *
- * @param[in] error_code 
- * @param[in] line_num   
+ * @param[in] error_code
+ * @param[in] line_num
  * @param[in] *p_file_name
  */
 void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p_file_name);
 
-/** 
+/**
  * @brief Function for handling assertions.
  *
  * @param line_num The line number where the assertion is called

@@ -17,7 +17,7 @@ extern "C" {
  *
  * @param[in] pin
  * @param[in] state     The type of pulse to measurestate, HIGH or LOW
- * @param[in] timeout 
+ * @param[in] timeout
  *
  * @return   Time in ms
  */

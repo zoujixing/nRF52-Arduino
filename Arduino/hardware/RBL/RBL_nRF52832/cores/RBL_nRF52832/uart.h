@@ -15,13 +15,13 @@ extern "C"{
 
 /****************************************************
 *                 Type Definitions
-****************************************************/ 
+****************************************************/
 typedef enum
 {
-	UART0_NotStart,
-	UART0_BeforeFirstTX,
-	UART0_AfterFirstTX,
-	
+    UART0_NotStart,
+    UART0_BeforeFirstTX,
+    UART0_AfterFirstTX,
+
 }UART0_States_t;
 
 typedef void (*UART0_IRQ_Handler_t)(void);
@@ -40,7 +40,7 @@ void UART0_registRxHandler(UART0_IRQ_Handler_t handler);
 /*
  * @brief Init uart
  *
- * @param[in] nrf_tx_pin  
+ * @param[in] nrf_tx_pin
  * @param[in] nrf_rx_pin
  * @param[in] baud_rate
  */
@@ -68,7 +68,7 @@ uint32_t UART0_readRxState(void);
 /*
  * @brief Clear uart rx state
  */
-void     UART0_clearRxState(void);
+void UART0_clearRxState(void);
 
 /*
  * @brief Read uart rx data
@@ -78,7 +78,7 @@ void     UART0_clearRxState(void);
 uint8_t  UART0_readRxData(void);
 
 #ifdef __cplusplus
-} 
+}
 #endif
 
 #endif

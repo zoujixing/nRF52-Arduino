@@ -18,7 +18,7 @@ static interruptCB_t interrupt_callback[INTERRUPTS_MAX_NUMBER];
 static void init(void)
 {
     uint8_t index;
-    
+
     memset(interrupt_pin, 0xFF, INTERRUPTS_MAX_NUMBER);
     for(index=0; index<INTERRUPTS_MAX_NUMBER; index++) {
         interrupt_callback[index] = NULL;
@@ -26,27 +26,28 @@ static void init(void)
     enable = 1;
     log_info("INTERRUPT : Init Interrupts \r\n");
 }
+
 void attachInterrupt(uint8_t pin, interruptCB_t callback, uint8_t mode)
 {
     uint8_t nrf_pin;
     uint32_t polarity;
-    
+
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
     if(nrf_pin >= 31)
         return;
     // Init once.
     if(!enable)
         init();
-    
-    if(mode == RISING) 
+
+    if(mode == RISING)
         polarity = GPIOTE_CONFIG_POLARITY_LoToHi;
     else if(mode == FALLING)
         polarity = GPIOTE_CONFIG_POLARITY_HiToLo;
     else if(mode == CHANGE)
         polarity = GPIOTE_CONFIG_POLARITY_Toggle;
-    else 
+    else
         return;
-    
+
     uint8_t ch;
     for(ch=0; ch<INTERRUPTS_MAX_NUMBER; ch++) {
         if((interrupt_pin[ch] == 0xFF) || (interrupt_pin[ch] == nrf_pin)) {
@@ -54,7 +55,7 @@ void attachInterrupt(uint8_t pin, interruptCB_t callback, uint8_t mode)
             interrupt_pin[ch] = nrf_pin;
             interrupt_callback[ch] = callback;
             log_info("INTERRUPT : The GPIOTE channel is %d \r\n", ch);
-                                 
+
             // Config GPIOTE.
             NRF_GPIOTE->CONFIG[ch] &= ~(GPIOTE_CONFIG_PSEL_Msk | GPIOTE_CONFIG_MODE_Msk | GPIOTE_CONFIG_POLARITY_Msk);
             NRF_GPIOTE->CONFIG[ch] = ( (GPIOTE_CONFIG_MODE_Event << GPIOTE_CONFIG_MODE_Pos) |
@@ -63,7 +64,7 @@ void attachInterrupt(uint8_t pin, interruptCB_t callback, uint8_t mode)
                                      );
             log_info("INTERRUPT : Enable IRQn \r\n");
             // Enable interrupter for current GPIOTE channel.
-            NRF_GPIOTE->INTENSET = (1 << ch);        
+            NRF_GPIOTE->INTENSET = (1 << ch);
             // Enable GPIOTE IRQn.
             NVIC_SetPriority(GPIOTE_IRQn, 1);
             NVIC_EnableIRQ(GPIOTE_IRQn);
@@ -77,11 +78,11 @@ void attachInterrupt(uint8_t pin, interruptCB_t callback, uint8_t mode)
 void detachInterrupt(uint8_t pin)
 {
     uint8_t nrf_pin;
-    
+
     nrf_pin = Pin_nRF51822_to_Arduino(pin);
     if(nrf_pin >= 31)
         return;
-    
+
     for(uint8_t ch=0; ch<INTERRUPTS_MAX_NUMBER; ch++) {
         if(interrupt_pin[ch] == nrf_pin) {
             interrupt_pin[ch] = 0xFF;
@@ -89,7 +90,7 @@ void detachInterrupt(uint8_t pin)
             // Clean configuration.
             NRF_GPIOTE->CONFIG[ch] &= ~(GPIOTE_CONFIG_PSEL_Msk | GPIOTE_CONFIG_MODE_Msk | GPIOTE_CONFIG_POLARITY_Msk);
             NRF_GPIOTE->INTENCLR = (1 << ch);
-            
+
             break;
         }
     }

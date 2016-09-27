@@ -69,8 +69,8 @@ __ASM volatile (
     " NOP\n"
     " NOP\n"
     " NOP\n"
-    " NOP\n"   
-    " NOP\n"  
+    " NOP\n"
+    " NOP\n"
     " NOP\n"
     " NOP\n"
     " NOP\n"
@@ -127,7 +127,7 @@ __ASM volatile (
 }
 
 #ifdef __cplusplus
-} 
+}
 #endif
 
 #endif
